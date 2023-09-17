@@ -1,19 +1,19 @@
 import { Tetromino } from "./tetromino.js";
 import { Cell } from "./cell.js";
 
+var defaultBackgroundColor = 'rgb(66, 63, 125)'; 
 
 export function gameLoop(){
+
     var tetromino = spawn();
-
-    
-
     autoFall(tetromino, stopFall);
+
 }
 
 export function move(tetromino){
     var moveEvent = (event) => {
         var code = event.code;
-        if(code == 'ArrowDown' || code == 'KeyS') tetromino.moveDown();
+        if(code == 'ArrowDown' || code == 'KeyS') if(tetromino.checkBelow()) tetromino.moveDown()
         if(code == 'ArrowLeft' || code == 'KeyA') tetromino.moveLeft();
         if(code == 'ArrowRight' || code == 'KeyD') tetromino .moveRight();
     };
@@ -122,6 +122,16 @@ function spawnZ(){
     const cell3 = new Cell(5,0);
     const cell4 = new Cell(6,1);
     return new Tetromino('green', 'Z', cell1,cell2,cell3,cell4 )
+}
+
+export function setBackgroundColor(){
+    const grid = document.getElementById('grid');
+    for(let y = 0; y < 20; y++){
+        for(let x = 0; x<10; x++){
+            const cell = document.getElementsByClassName('row')[y].getElementsByClassName('cell')[x];
+            cell.style.backgroundColor = defaultBackgroundColor;
+        }
+    }
 }
 
 function getRandomInt(max){

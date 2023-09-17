@@ -9,8 +9,7 @@ export class Cell {
     }
 
     setColor(colorString){
-        this.color = colorString;
-        this.element.style.backgroundColor = this.color;
+        this.element.style.backgroundColor = colorString;
         this.element.style.border = "1px solid rgba(0, 0, 0, 0.5)";
     }
 
@@ -39,9 +38,11 @@ export class Cell {
 
     checkBelow(){
         if(this.y == 20){
+            
             return false;
         }
-        else return true;
+        else {
+            return true};
     }
 
     checkLeft(){
@@ -56,6 +57,22 @@ export class Cell {
             return false;
         }
         else return true;
+    }
+    
+    //returns true if cell below is empty, false if not
+    checkBelowEmpty(){
+        return this.checkEmpty(this.x, this.y + 1);
+    }
+
+    checkEmpty(x,y){
+        if(y>19) return false;
+        var cell =  document.getElementById('grid').getElementsByClassName('row')[y].getElementsByClassName('cell')[x];
+        
+        if(cell.style.backgroundColor == defaultBackground){
+            console.log('cella finita')
+            return true;
+        }
+        else return false;
     }
    
 }
