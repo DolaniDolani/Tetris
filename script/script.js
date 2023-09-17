@@ -1,8 +1,12 @@
+import { move, spawn, autoFall } from "./utilities.js";
+import { Cell } from "./cell.js";
+import { Tetromino } from "./tetromino.js";
 
-const grid = document.getElementById('grid');
 
-const row = grid.getElementsByClassName('row')[3];
 
-const cell = row.getElementsByClassName('cell')[6];
 
-cell.style.backgroundColor = "red";
+
+var tetromino = spawn();
+
+move(tetromino);
+autoFall(tetromino);
