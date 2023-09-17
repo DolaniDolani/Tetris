@@ -24,7 +24,8 @@ export class Tetromino {
     }
 
     moveLeft() {
-        if (this.checkLeft()) {
+        console.log(this.checkLeftBlock())
+        if (this.checkLeft() ) {
             var newCells = new Array();
             this.cells.forEach(cell => {
                 var newCell = cell.moveLeft();
@@ -51,18 +52,17 @@ export class Tetromino {
 
     //returns true if tetromino can move below, false if it can't
     checkBelow() {
-        console.log(this.cells.every(cell => cell.checkBelow()) && this.checkBelowBlock())
         return this.cells.every(cell => cell.checkBelow()) && this.checkBelowBlock();
     }
 
     //returns true if tetromino can move left, false if it can't
     checkLeft() {
-        return this.cells.every(cell => cell.checkLeft())
+        return this.cells.every(cell => cell.checkLeft() && this.checkLeftBlock());
     }
 
     //returns true if tetromino can move right, false if it can't
     checkRight() {
-        return this.cells.every(cell => cell.checkRight())
+        return this.cells.every(cell => cell.checkRight() && this.checkRightBlock());
     }
 
     //returns false is a tetromino is present below this one
@@ -75,6 +75,26 @@ export class Tetromino {
             }
         })
         return lowerCells.every(cell => cell.checkBelowEmpty());
+    }
+
+    checkLeftBlock() {
+        var furtherLeftCells = new Array();
+        this.cells.forEach(cell => {
+            if(furtherLeftCells[cell.y] == null || furtherLeftCells[cell.y].x > cell.x) {
+                furtherLeftCells[cell.y] = cell;
+            }
+        })
+        return furtherLeftCells.every(cell => cell.checkLeftEmpty());
+    }
+
+    checkRightBlock(){
+        var furtherRightCells = new Array();
+        this.cells.forEach(cell => {
+            if(furtherRightCells[cell.y] == null || furtherRightCells[cell.y].x < cell.x) {
+                furtherRightCells[cell.y] = cell;
+            }
+        })
+        return furtherRightCells.every(cell => cell.checkRightEmpty());
     }
 
     rotateLeft() {

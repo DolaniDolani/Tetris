@@ -38,7 +38,6 @@ export class Cell {
 
     checkBelow(){
         if(this.y == 20){
-            
             return false;
         }
         else {
@@ -64,12 +63,19 @@ export class Cell {
         return this.checkEmpty(this.x, this.y + 1);
     }
 
+    checkLeftEmpty(){
+        return this.checkEmpty(this.x - 1, this.y);
+    }
+
+    checkRightEmpty(){
+        return this.checkEmpty(this.x + 1, this.y);
+    }
+
     checkEmpty(x,y){
         if(y>19) return false;
+        if(x<0 || x>9) return false;
         var cell =  document.getElementById('grid').getElementsByClassName('row')[y].getElementsByClassName('cell')[x];
-        
         if(cell.style.backgroundColor == defaultBackground){
-            console.log('cella finita')
             return true;
         }
         else return false;
