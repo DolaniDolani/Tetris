@@ -1,20 +1,51 @@
 import { Tetromino } from "./tetromino.js";
 import { Cell } from "./cell.js";
 
+
+export function gameLoop(){
+    var tetromino = spawn();
+
+    
+
+    autoFall(tetromino, stopFall);
+}
+
 export function move(tetromino){
-    document.addEventListener('keydown', (event) => {
+    var moveEvent = (event) => {
         var code = event.code;
         if(code == 'ArrowDown' || code == 'KeyS') tetromino.moveDown();
         if(code == 'ArrowLeft' || code == 'KeyA') tetromino.moveLeft();
         if(code == 'ArrowRight' || code == 'KeyD') tetromino .moveRight();
+    };
 
-    })
+    document.addEventListener('keydown', moveEvent);
+    return moveEvent;
 }
 
-export function autoFall(tetromino){
-    setInterval(function(){
-        tetromino.moveDown()
+export function stopMove(currentMoveEvent){
+    if(currentMoveEvent){
+        document.removeEventListener('keydown', currentMoveEvent);
+    }
+}
+
+export function autoFall(tetromino, onCannotFall){
+    var moveEvent = move(tetromino);
+    var autoFallInterval = setInterval(function(){
+        if(tetromino.checkBelow()) tetromino.moveDown()
+        else {
+            //exit setInterval if tetromino can't move below
+            clearInterval(autoFallInterval);
+            onCannotFall(moveEvent);
+        }        
     }, 1000)
+}
+
+export function stopFall(previousMoveEvent){
+    stopMove(previousMoveEvent);
+    var tetromino = spawn();
+    //recursion on autoFall to keep spawning tetrominoes
+    autoFall(tetromino, stopFall)
+    
 }
 
 export function spawn(){
