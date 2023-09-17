@@ -8,42 +8,60 @@ export class Tetromino {
     }
 
     setColor(color){
-        console.log(color)
         this.cells.forEach(cell => {
             cell.setColor(color);
         })
     }
 
     moveDown(){
-        var newCells = new Array();
-        this.cells.forEach(cell => {
-            var newCell = cell.moveDown();
-            newCells.push(newCell);
-        })
-        this.cells = newCells;
-        this.setColor(this.color);
+        if(this.checkBelow()){
+            var newCells = new Array();
+            this.cells.forEach(cell => {
+                var newCell = cell.moveDown();
+                newCells.push(newCell);
+            })
+            this.cells = newCells;
+            this.setColor(this.color);
+        }
     }
 
     moveLeft(){
-        var newCells = new Array();
-        this.cells.forEach(cell => {
-            var newCell = cell.moveLeft();
-            
-            newCells.push(newCell);
-        })
+        if(this.checkLeft()){
+            var newCells = new Array();
+            this.cells.forEach(cell => {
+                var newCell = cell.moveLeft();
+                
+                newCells.push(newCell);
+            })
 
-        this.cells = newCells;
-        this.setColor(this.color);
+            this.cells = newCells;
+            this.setColor(this.color);
+        }
     }
 
     moveRight(){
-        var newCells = new Array();
-        this.cells.forEach(cell => {
-            var newCell = cell.moveRight();
-            newCells.push(newCell);
-        })
-        this.cells = newCells;
-        this.setColor(this.color);
+        if(this.checkRight()){
+            var newCells = new Array();
+            this.cells.forEach(cell => {
+                var newCell = cell.moveRight();
+                newCells.push(newCell);
+            })
+            this.cells = newCells;
+            this.setColor(this.color);
+        }
+    }
+
+    //returns true if tetromino can move below, false if it can't
+    checkBelow(){
+        return this.cells.every(cell => cell.checkBelow())
+    }
+
+    checkLeft(){
+        return this.cells.every(cell => cell.checkLeft())
+    }
+
+    checkRight(){
+        return this.cells.every(cell => cell.checkRight())
     }
 
     rotateLeft(){

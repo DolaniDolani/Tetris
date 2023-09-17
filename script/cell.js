@@ -5,7 +5,7 @@ export class Cell {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.element = grid.getElementsByClassName('row')[y].getElementsByClassName('cell')[x];
+        this.element = document.getElementById('grid').getElementsByClassName('row')[y].getElementsByClassName('cell')[x];
     }
 
     setColor(colorString){
@@ -37,5 +37,25 @@ export class Cell {
         this.element.style.border = defaultBorder;
     }
 
+    checkBelow(){
+        if(this.y == 20){
+            return false;
+        }
+        else return true;
+    }
+
+    checkLeft(){
+        if(this.x == 0){
+            return false;
+        }
+        else return true;
+    }
+
+    checkRight(){
+        if(this.x == 9){
+            return false;
+        }
+        else return true;
+    }
    
 }
