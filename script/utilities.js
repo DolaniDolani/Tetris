@@ -2,6 +2,7 @@ import { Tetromino } from "./tetromino.js";
 import { Cell } from "./cell.js";
 
 var defaultBackgroundColor = 'rgb(66, 63, 125)'; 
+var defaultBorder = "1px solid rgba(0, 0, 0, 0.0)";
 let gameOver = false; 
 
 export function startMusic1() {
@@ -184,6 +185,7 @@ export function setBackgroundColor(){
         for(let x = 0; x<10; x++){
             const cell = document.getElementsByClassName('row')[y].getElementsByClassName('cell')[x];
             cell.style.backgroundColor = defaultBackgroundColor;
+            cell.style.border = defaultBorder;
         }
     }
 }
