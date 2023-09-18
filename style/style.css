@@ -1,25 +1,106 @@
 body{
-    background-color: gray;
+    background-color: rgb(66, 36, 88);
+    text-align: center;
 }
 
 #grid{
-    margin-top: 15svh;
+    margin-top: 5vh;
     margin-left: auto;
     margin-right: auto;
     border: 5px solid rgb(65, 64, 64); 
     width: 300px;
     height: 600px; 
-
     display: table;
+    background-color: #000000;
 }
-
-.row{
-    
+.row{   
     display: table-row;
 }
 
 .cell{    
-    border: 1px solid rgba(0, 0, 0, 0.5); 
+    border: 1px solid rgba(0, 0, 0, 0.0); 
     display: table-cell;
 }
 
+.touch-controls {
+    display: none;
+}
+
+.key-legend {
+    font-family: 'Press Start 2P', cursive;
+    background-color: #fff200;
+    border: 3px solid #000ed7;
+    padding: 15px;
+    border-radius: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+
+.key-group {
+    margin: 0 5px;
+}
+
+.key {
+    background-color: #ffffff;
+    padding: 3px 5px;
+    border-radius: 3px;
+    font-weight: bold;
+}
+
+@media (max-width:1000px){
+    #grid{
+        width: 70vw;
+        height: calc(70vw*2);
+    }
+
+    .touch-controls {
+        display: block;
+        margin-top: 20px;
+    }
+
+    .touch-button {
+        width: 10vw;
+        height: 15vw;
+        margin-right: 20px;
+        font-size: xx-large;
+    }
+
+    #play-button{
+        width: 30vw;
+        height: 5vh;
+    }
+    .key-legend{
+        font-size: xx-large;
+    }
+}
+
+#play-button{
+    font-family: 'Press Start 2P', cursive;
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: x-large;
+    background-color: yellow;
+    border: none;
+    transition: all 0.1s ease;
+
+}
+
+#play-button:hover{
+    cursor: pointer;
+    background-color: #ffd035;
+}
+
+#play-button:active{
+    background-color: #fff;
+    color: #000000;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transform: translateY(2px);
+}
+
+#play-button:disabled{
+    background-color: rgba(99, 99, 99, 0.2);
+    color: rgba(255, 255, 255, 0.091);
+}

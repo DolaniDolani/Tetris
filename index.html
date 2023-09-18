@@ -4,12 +4,23 @@
     <title>DolaniDolani - Tetris</title>
     <link rel="icon" type="image/x-icon" href="favicon.png">
     <link rel="stylesheet" type="text/css" href="style/style.css"> 
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
 </head>
 <body>
-    <audio loop autoplay>
+    <audio id="music-1" loop>
         <source src="music/music_1.wav" type="audio/wav">
     </audio>
+    <audio id="lose-sound">
+        <source src="music/fart.mp3" type="audio/wav">
+    </audio>
     <div id="page-container">
+        <div class="key-legend">
+            <div class="key-group"><span class="key">← / A</span>: Sposta a sinistra</div>
+            <div class="key-group"><span class="key">→ / D</span>: Sposta a destra</div>
+            <div class="key-group"><span class="key">↓ / S</span>: Sposta in basso</div>
+            <div class="key-group"><span class="key">Q</span>: Ruota a sinistra</div>
+            <div class="key-group"><span class="key">E</span>: Ruota a destra</div>
+        </div>
         <div id="grid"> <!-- Griglia di gioco -->
             <div class="row">
                 <div class="cell">
@@ -654,6 +665,15 @@
             
             
         </div>
+        <button id="play-button" onclick="startGame()">Play</button>
+        <div class="touch-controls">
+            <button class="touch-button" id="left-btn">←</button>
+            <button class="touch-button" id="down-btn">↓</button>
+            <button class="touch-button" id="right-btn">→</button>
+            <button class="touch-button" id="rotate-left-btn">Q</button>
+            <button class="touch-button" id="rotate-right-btn">E</button>
+        </div>
+        
     </div>
 </body>
 <script type="module" src="./script/script.js"></script>

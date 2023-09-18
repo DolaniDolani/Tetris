@@ -105,52 +105,43 @@ export class Tetromino {
 
 
     rotateLeft() {
-
-        
-
-        switch (this.shape) {
-            case ('O'):
-                
-            case ('T'):
-
-            case ('I'):
-
-            case ('L'):
-
-            case ('J'):
-
-            case ('Z'):
-
-            case ('S'):
-
+        let canRotateLeft = [1,2,3].every(i => {
+            return this.cells[0].checkRotateLeftAroundThis(this.cells[i]);
+        })
+        if(canRotateLeft && this.shape != 'O'){
+            for(var i=1; i<4; i++) {
+                this.cells[i].restoreColor();
+            }
+            let canRotateBlockLeft = [1,2,3].every(i => {
+                return this.cells[0].checkRotateBlockAroundThisLeft(this.cells[i]);
+            })
+            if(canRotateBlockLeft){
+                for(var i=1; i<4;i++){
+                    this.cells[i] = this.cells[0].rotateLeftAroundThis(this.cells[i]);
+                }
+            }
+            this.setColor(this.color);
         }
     }
 
     rotateRight() {
-
-        for(var i=1; i<4; i++) {
-            this.cells[i].restoreColor();
-        }
-        for(var i=1; i<4;i++){
-            this.cells[i] = this.cells[0].rotateRightAroundThis(this.cells[i]);
-        }
-        this.setColor(this.color)
-
-        switch (this.shape) {
-            case ('O'):
-
-            case ('T'):
-
-            case ('I'):
-
-            case ('L'):
-
-            case ('J'):
-
-            case ('Z'):
-
-            case ('S'):
-
+        let canRotateRight = [1,2,3].every(i => {
+            return this.cells[0].checkRotateRightAroundThis(this.cells[i]);
+        })
+        if(canRotateRight && this.shape != 'O'){
+            for(var i=1; i<4; i++) {
+                this.cells[i].restoreColor();
+            }
+            let canRotateBlockRight = [1,2,3].every(i => {
+                return this.cells[0].checkRotateBlockAroundThisRight(this.cells[i]);
+            })
+            if(canRotateBlockRight){
+                for(var i=1; i<4;i++){
+                    this.cells[i] = this.cells[0].rotateRightAroundThis(this.cells[i]);
+                }
+            }
+            this.setColor(this.color);
         }
     }
+
 }

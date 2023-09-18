@@ -2,12 +2,53 @@ import { Tetromino } from "./tetromino.js";
 import { Cell } from "./cell.js";
 
 var defaultBackgroundColor = 'rgb(66, 63, 125)'; 
+let gameOver = false; 
+
+export function startMusic1() {
+    let audioElement = document.getElementById("music-1");
+    audioElement.volume = 0.1;
+    audioElement.play();
+}
+
+export function stopMusic1() {
+    let audioElement = document.getElementById("music-1");
+    audioElement.pause();
+    audioElement.currentTime = 0;
+}
+
+
 
 export function gameLoop(){
-
+    gameOver = false;
     var tetromino = spawn();
     autoFall(tetromino, stopFall);
 
+}
+
+export function checkLose(){
+    let firstCell = document.getElementById('grid').getElementsByClassName('row')[0].getElementsByClassName('cell')[5];
+    if(firstCell.style.backgroundColor != defaultBackgroundColor) {
+        stopMusic1();
+        playFart();
+        alert('Hai perso');
+        document.getElementById('play-button').innerText = 'Play again';
+        enablePlayButton();
+        gameOver = true;
+        
+    }
+}
+
+function playFart(){
+    let audioElement = document.getElementById("lose-sound");
+    audioElement.play();
+}
+
+export function disablePlayButton(){
+    document.getElementById('play-button').disabled = true;
+}
+
+export function enablePlayButton(){
+    document.getElementById('play-button').disabled = false;
 }
 
 export function move(tetromino){
@@ -16,7 +57,8 @@ export function move(tetromino){
         if(code == 'ArrowDown' || code == 'KeyS')  tetromino.moveDown();
         if(code == 'ArrowLeft' || code == 'KeyA') tetromino.moveLeft();
         if(code == 'ArrowRight' || code == 'KeyD') tetromino.moveRight();
-        if(code == 'KeyE') tetromino.rotateRight();
+        if(code == 'KeyQ') tetromino.rotateRight();
+        if(code == 'KeyE') tetromino.rotateLeft();
     };
     document.addEventListener('keydown', moveEvent);
     return moveEvent;
@@ -31,6 +73,11 @@ export function stopMove(currentMoveEvent){
 export function autoFall(tetromino, onCannotFall){
     var moveEvent = move(tetromino);
     var autoFallInterval = setInterval(function(){
+        if (gameOver) {
+            clearInterval(autoFallInterval);
+            return;
+        }
+        
         if(tetromino.checkBelow()) tetromino.moveDown()
         else {
             //exit setInterval if tetromino can't move below
@@ -40,13 +87,20 @@ export function autoFall(tetromino, onCannotFall){
     }, 1000)
 }
 
+
 export function stopFall(previousMoveEvent){
+    checkLines();
+    checkLose();
     stopMove(previousMoveEvent);
+
+    if (gameOver) return; // Interrompe ulteriori azioni se il gioco è finito
+
     var tetromino = spawn();
+    
     //recursion on autoFall to keep spawning tetrominoes
     autoFall(tetromino, stopFall)
-    
 }
+
 
 export function spawn(){
     var randomNumber = getRandomInt(7);
@@ -132,6 +186,44 @@ export function setBackgroundColor(){
             cell.style.backgroundColor = defaultBackgroundColor;
         }
     }
+}
+
+export function checkLines(){
+    for(let y = 0; y<20; y++){
+        let isLineFull = false;
+        for(let x = 0; x<10; x++){
+            if(checkEmpty(x,y)){
+                isLineFull = false;
+                x=10;
+            } else isLineFull = true;
+        }
+        if(isLineFull) pushLines(y);
+    }
+}
+
+export function pushLines(y){
+    for (let currentRow = y; currentRow > 0; currentRow--) {
+        const cellsCurrentRow = document.getElementsByClassName('row')[currentRow].getElementsByClassName('cell');
+        const cellsAboveRow = document.getElementsByClassName('row')[currentRow - 1].getElementsByClassName('cell');
+        
+        for (let i = 0; i < cellsCurrentRow.length; i++) {
+            cellsCurrentRow[i].style.backgroundColor = cellsAboveRow[i].style.backgroundColor;
+        }
+    }
+    const topRowCells = document.getElementsByClassName('row')[0].getElementsByClassName('cell');
+    for (let cell of topRowCells) {
+        cell.style.backgroundColor = defaultBackgroundColor;
+    }
+}
+
+function checkEmpty(x,y){
+    if(y>19) return false;
+    if(x<0 || x>9) return false;
+    var cell =  document.getElementById('grid').getElementsByClassName('row')[y].getElementsByClassName('cell')[x];
+    if(cell.style.backgroundColor == defaultBackgroundColor){
+        return true;
+    }
+    else return false;
 }
 
 function getRandomInt(max){

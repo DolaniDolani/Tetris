@@ -1,5 +1,5 @@
 var defaultBackground = 'rgb(66, 63, 125)'; 
-var defaultBorder = "1px solid rgba(0, 0, 0, 0.5)"
+var defaultBorder = "1px solid rgba(0, 0, 0, 0.0)"
 
 export class Cell {
     constructor(x, y) {
@@ -78,13 +78,59 @@ export class Cell {
         return relativeDistance;
     }
 
-    //rotates the argument cells around the current one
+
+    //rotates the argument cell around the current one
+    rotateLeftAroundThis(cell){
+        let relativeDistance = this.calculateRelativeDistance(cell);
+        let rotatedX = this.x + relativeDistance[1];
+        let rotatedY = this.y - relativeDistance[0];
+        
+        return new Cell(rotatedX, rotatedY);
+    }
+
+    //checks if the argument cell can rotate around the current one
+    checkRotateLeftAroundThis(cell){
+        let relativeDistance = this.calculateRelativeDistance(cell);
+        let rotatedX = this.x + relativeDistance[1];
+        let rotatedY = this.y - relativeDistance[0];
+        if(rotatedX >= 0 && rotatedX <= 9 && rotatedY >= 0 && rotatedY <= 19) return true;
+        else return false;
+    }
+
+    checkRotateBlockAroundThisLeft(cell){
+        let relativeDistance = this.calculateRelativeDistance(cell);
+        let rotatedX = this.x -+ relativeDistance[1];
+        let rotatedY = this.y - relativeDistance[0];
+
+        if(this.checkEmpty(rotatedX, rotatedY)) return true;
+        else return false;
+    }
+
+    //rotates the argument cell around the current one
     rotateRightAroundThis(cell){
         let relativeDistance = this.calculateRelativeDistance(cell);
         let rotatedX = this.x - relativeDistance[1];
         let rotatedY = this.y + relativeDistance[0];
         
         return new Cell(rotatedX, rotatedY);
+    }
+
+    //checks if the argument cell can rotate around the current one
+    checkRotateRightAroundThis(cell){
+        let relativeDistance = this.calculateRelativeDistance(cell);
+        let rotatedX = this.x - relativeDistance[1];
+        let rotatedY = this.y + relativeDistance[0];
+        if(rotatedX >= 0 && rotatedX <= 9 && rotatedY >= 0 && rotatedY <= 19) return true;
+        else return false;
+    }
+
+    checkRotateBlockAroundThisRight(cell){
+        let relativeDistance = this.calculateRelativeDistance(cell);
+        let rotatedX = this.x - relativeDistance[1];
+        let rotatedY = this.y + relativeDistance[0];
+
+        if(this.checkEmpty(rotatedX, rotatedY)) return true;
+        else return false;
     }
 
     checkEmpty(x,y){
