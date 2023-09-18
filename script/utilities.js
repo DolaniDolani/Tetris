@@ -210,11 +210,13 @@ export function pushLines(y){
         
         for (let i = 0; i < cellsCurrentRow.length; i++) {
             cellsCurrentRow[i].style.backgroundColor = cellsAboveRow[i].style.backgroundColor;
+            cellsCurrentRow[i].style.border = cellsAboveRow[i].style.border;
         }
     }
     const topRowCells = document.getElementsByClassName('row')[0].getElementsByClassName('cell');
     for (let cell of topRowCells) {
         cell.style.backgroundColor = defaultBackgroundColor;
+        cell.style.border = defaultBorder;
     }
 }
 
