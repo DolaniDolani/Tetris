@@ -71,6 +71,22 @@ export class Cell {
         return this.checkEmpty(this.x + 1, this.y);
     }
 
+    calculateRelativeDistance(cell){
+        let relativeDistance = new Array();
+        relativeDistance[0] = cell.x - this.x;
+        relativeDistance[1] = cell.y - this.y;
+        return relativeDistance;
+    }
+
+    //rotates the argument cells around the current one
+    rotateRightAroundThis(cell){
+        let relativeDistance = this.calculateRelativeDistance(cell);
+        let rotatedX = this.x - relativeDistance[1];
+        let rotatedY = this.y + relativeDistance[0];
+        
+        return new Cell(rotatedX, rotatedY);
+    }
+
     checkEmpty(x,y){
         if(y>19) return false;
         if(x<0 || x>9) return false;

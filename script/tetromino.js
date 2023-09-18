@@ -14,17 +14,19 @@ export class Tetromino {
     }
 
     moveDown() {
-        var newCells = new Array();
-        this.cells.forEach(cell => {
-            var newCell = cell.moveDown();
-            newCells.push(newCell);
-        })
-        this.cells = newCells;
-        this.setColor(this.color);
+        if (this.checkBelow()) {
+            var newCells = new Array();
+            this.cells.forEach(cell => {
+                var newCell = cell.moveDown();
+                newCells.push(newCell);
+            })
+            this.cells = newCells;
+            this.setColor(this.color);
+        }
+        
     }
 
     moveLeft() {
-        console.log(this.checkLeftBlock())
         if (this.checkLeft() ) {
             var newCells = new Array();
             this.cells.forEach(cell => {
@@ -97,10 +99,18 @@ export class Tetromino {
         return furtherRightCells.every(cell => cell.checkRightEmpty());
     }
 
+
+
+
+
+
     rotateLeft() {
+
+        
+
         switch (this.shape) {
             case ('O'):
-
+                
             case ('T'):
 
             case ('I'):
@@ -117,6 +127,15 @@ export class Tetromino {
     }
 
     rotateRight() {
+
+        for(var i=1; i<4; i++) {
+            this.cells[i].restoreColor();
+        }
+        for(var i=1; i<4;i++){
+            this.cells[i] = this.cells[0].rotateRightAroundThis(this.cells[i]);
+        }
+        this.setColor(this.color)
+
         switch (this.shape) {
             case ('O'):
 
